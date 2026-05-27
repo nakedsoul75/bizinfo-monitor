@@ -42,19 +42,32 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Debug — env presence check (values NOT printed)
+      - name: Debug — env presence check
         env:
           BIZINFO_API_KEY: ${{ secrets.BIZINFO_API_KEY }}
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
           KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
         run: |
-          echo "=== Secret presence (length only, values masked) ==="
-          echo "BIZINFO_API_KEY length: ${#BIZINFO_API_KEY}"
-          echo "KAKAO_REST_API_KEY length: ${#KAKAO_REST_API_KEY}"
-          echo "KAKAO_REFRESH_TOKEN length: ${#KAKAO_REFRESH_TOKEN}"
-          echo "Expected: BIZINFO=64, KAKAO_REST=32, KAKAO_REFRESH=64"
+          {
+            echo "## 🔐 Secret presence check (length only — values masked)"
+            echo ""
+            echo "| Secret | Actual length | Expected |"
+            echo "|---|---|---|"
+            echo "| BIZINFO_API_KEY | ${#BIZINFO_API_KEY} | 64 |"
+            echo "| KAKAO_REST_API_KEY | ${#KAKAO_REST_API_KEY} | 32 |"
+            echo "| KAKAO_REFRESH_TOKEN | ${#KAKAO_REFRESH_TOKEN} | 64 |"
+            echo ""
+            if [ "${#BIZINFO_API_KEY}" -ne 64 ] || [ "${#KAKAO_REST_API_KEY}" -ne 32 ] || [ "${#KAKAO_REFRESH_TOKEN}" -ne 64 ]; then
+              echo "⚠️ Length mismatch — value may include extra spaces / newlines, or not registered. Re-add the secret."
+            else
+              echo "✅ All lengths match expected values."
+            fi
+            echo ""
+          } | tee -a $GITHUB_STEP_SUMMARY
 
-      - name: Run bizinfo monitor
+      - name: Run bizinfo monitor (log to file + summary)
+        id: run_monitor
+        continue-on-error: true
         env:
           BIZINFO_API_KEY: ${{ secrets.BIZINFO_API_KEY }}
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
@@ -66,4 +79,41 @@ jobs:
           ARGS=""
           if [ -n "${{ inputs.date }}" ]; then ARGS="$ARGS --date=${{ inputs.date }}"; fi
           if [ "${{ inputs.mock }}" = "true" ]; then ARGS="$ARGS --mock"; fi
-          python src/main.py $ARGS
+          echo "Running: python src/main.py $ARGS"
+          set -o pipefail
+          python src/main.py $ARGS 2>&1 | tee run.log
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+          exit $EXIT_CODE
+
+      - name: Publish run log to Summary (always)
+        if: always()
+        run: |
+          {
+            echo "## 📋 Run output (full log)"
+            echo ""
+            echo "Exit code: \`${{ steps.run_monitor.outputs.exit_code || 'unknown' }}\`"
+            echo ""
+            echo '```'
+            if [ -f run.log ]; then
+              tail -c 30000 run.log
+            else
+              echo "(run.log file not produced — earlier step failed)"
+            fi
+            echo '```'
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload run log as artifact (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-log
+          path: run.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Fail job if monitor failed
+        if: steps.run_monitor.outcome == 'failure'
+        run: |
+          echo "::error::bizinfo monitor failed — see Summary above for full log"
+          exit 1
