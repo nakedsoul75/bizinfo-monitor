@@ -1,0 +1,46 @@
+# 기업마당 모니터링 설정
+# 수정 후 git push 하면 다음 14시 보고서부터 반영됨
+
+# ===== 우선 키워드 (회사명) — 보고서에 ★ 표시로 우선 노출 =====
+priority_keywords:
+  - "창대"
+  - "디엘나인"
+  - "DL나인"
+  - "DLNINE"
+  - "콤마나인"
+  - "COMMANINE"
+  - "comma9"
+  - "팩토리나인"
+  - "Factory Nine"
+  - "FactoryNine"
+  - "factory9"
+
+# ===== 일반 키워드 (업종·관심 분야) — 보고서에 일반 노출 =====
+# 필요 시 자유롭게 추가/삭제. 비워두면 회사명만 매칭.
+general_keywords: []
+
+# ===== 매칭 옵션 =====
+match:
+  # 대소문자·공백 무시하고 부분 일치
+  case_insensitive: true
+  strip_whitespace: true
+  # 매칭 대상 필드 (기업마당 API 응답에 있는 필드명)
+  fields:
+    - "pblancNm"      # 공고명
+    - "bsnsSumryCn"   # 사업개요내용
+    - "trgetNm"       # 신청대상명
+    - "pblancUrl"     # 공고URL (도메인 매칭은 안 함, 텍스트만)
+
+# ===== 알림 정책 =====
+notify:
+  # 전일 신규 등록된 공고만 (등록일 기준)
+  mode: "new_yesterday"
+  # 매칭 0건일 때도 "오늘 매칭 0건" 보고서를 보낼지
+  send_when_empty: true
+
+# ===== API =====
+api:
+  endpoint: "https://apis.data.go.kr/1421000/mssBizService_v2/getbizList_v2"
+  num_of_rows: 100   # 일일 트래픽 100건 제한 — 페이지당 최대로
+  max_pages: 5       # 안전 상한 (페이지네이션 폭주 방지)
+  timeout_seconds: 30

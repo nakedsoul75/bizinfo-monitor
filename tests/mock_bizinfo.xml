@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <header>
+    <resultCode>00</resultCode>
+    <resultMsg>NORMAL SERVICE.</resultMsg>
+  </header>
+  <body>
+    <items>
+      <item>
+        <pblancId>PBLN_TEST_001</pblancId>
+        <pblancNm>2026년 콤마나인 등 캠핑가구 수출기업 해외 마케팅 지원사업</pblancNm>
+        <bsnsSumryCn>대구·경북 권역 캠핑가구·아웃도어 제조 중소기업을 대상으로 해외 전시회 참가 및 바이어 매칭을 지원합니다. 콤마나인, 스노우피크 등 우수 캠핑 브랜드 사례를 참고로 작성된 프로그램.</bsnsSumryCn>
+        <trgetNm>대구·경북 소재 캠핑가구·아웃도어 중소기업 (매출 10억 이하 우대)</trgetNm>
+        <rceptInsttNm>중소벤처기업부 대구지방청</rceptInsttNm>
+        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/example001.do</pblancUrl>
+        <reqstBgngDt>2026-05-28</reqstBgngDt>
+        <reqstEndDt>2026-06-10</reqstEndDt>
+        <creatPnttm>2026-05-26 14:30:00</creatPnttm>
+      </item>
+      <item>
+        <pblancId>PBLN_TEST_002</pblancId>
+        <pblancNm>2026 소량제작·시제품 제작 지원 사업 (Factory Nine 등 활용 가능)</pblancNm>
+        <bsnsSumryCn>창업기업 및 예비창업자가 자체 보유한 아이디어를 시제품으로 구현할 수 있도록 소량제작·OEM 제작비를 지원합니다. 팩토리나인, 다양한 소공인 협력업체와의 매칭을 안내합니다.</bsnsSumryCn>
+        <trgetNm>예비창업자 및 7년 이내 창업기업</trgetNm>
+        <rceptInsttNm>중소벤처기업부</rceptInsttNm>
+        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/example002.do</pblancUrl>
+        <reqstBgngDt>2026-06-01</reqstBgngDt>
+        <reqstEndDt>2026-05-30</reqstEndDt>
+        <creatPnttm>2026-05-26 09:15:00</creatPnttm>
+      </item>
+      <item>
+        <pblancId>PBLN_TEST_003</pblancId>
+        <pblancNm>2026년 디엘나인 소재기업 스마트공장 보급확산 지원</pblancNm>
+        <bsnsSumryCn>가구·금속가공 분야 디엘나인 소재 중소제조기업을 대상으로 스마트공장 구축비 50% 매칭 지원. 살바니니, 레이저가공기 등 신규 설비 도입 시 우대.</bsnsSumryCn>
+        <trgetNm>대구 동구 소재 제조 중소기업</trgetNm>
+        <rceptInsttNm>중소벤처기업부 대구지방청</rceptInsttNm>
+        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/example003.do</pblancUrl>
+        <reqstBgngDt>2026-06-15</reqstBgngDt>
+        <reqstEndDt>2026-07-30</reqstEndDt>
+        <creatPnttm>2026-05-26 11:00:00</creatPnttm>
+      </item>
+      <item>
+        <pblancId>PBLN_TEST_004</pblancId>
+        <pblancNm>2026 인테리어·가구 디자인주도 제조혁신 지원사업</pblancNm>
+        <bsnsSumryCn>디자인 가구·인테리어 분야 중소기업을 위한 디자인주도 제조혁신 R&amp;D 지원. 모듈러가구, 공간솔루션 등 우수 사례 발굴.</bsnsSumryCn>
+        <trgetNm>가구·인테리어 제조 중소기업</trgetNm>
+        <rceptInsttNm>중소벤처기업부</rceptInsttNm>
+        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/example004.do</pblancUrl>
+        <reqstBgngDt>2026-06-01</reqstBgngDt>
+        <reqstEndDt>2026-08-31</reqstEndDt>
+        <creatPnttm>2026-05-26 10:00:00</creatPnttm>
+      </item>
+      <item>
+        <pblancId>PBLN_TEST_005</pblancId>
+        <pblancNm>2026 농식품 가공기업 수출보험 지원</pblancNm>
+        <bsnsSumryCn>농식품 가공 분야 중소기업의 수출보험료를 일부 지원합니다. (매칭 안 되는 일반 공고 예시)</bsnsSumryCn>
+        <trgetNm>농식품 가공업체</trgetNm>
+        <rceptInsttNm>농림축산식품부</rceptInsttNm>
+        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/example005.do</pblancUrl>
+        <reqstBgngDt>2026-06-01</reqstBgngDt>
+        <reqstEndDt>2026-12-31</reqstEndDt>
+        <creatPnttm>2026-05-26 16:00:00</creatPnttm>
+      </item>
+    </items>
+    <numOfRows>100</numOfRows>
+    <pageNo>1</pageNo>
+    <totalCount>5</totalCount>
+  </body>
+</response>

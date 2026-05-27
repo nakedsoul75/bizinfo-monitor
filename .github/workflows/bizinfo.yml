@@ -1,0 +1,57 @@
+name: Bizinfo Daily Monitor
+
+on:
+  schedule:
+    # KST 14:00 = UTC 05:00 (매일 1회)
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "조회 기준일 (YYYY-MM-DD). 비우면 어제 자동."
+        required: false
+        default: ""
+      mock:
+        description: "Mock 픽스처로 실행 (실 API 호출 안 함)"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+permissions:
+  contents: write  # docs/reports/, data/seen.json 커밋·푸시 권한
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run bizinfo monitor
+        env:
+          BIZINFO_API_KEY: ${{ secrets.BIZINFO_API_KEY }}
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          REPORT_BASE_URL: "https://nakedsoul75.github.io/bizinfo-monitor/reports"
+          TZ: Asia/Seoul
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.date }}" ]; then ARGS="$ARGS --date=${{ inputs.date }}"; fi
+          if [ "${{ inputs.mock }}" = "true" ]; then ARGS="$ARGS --mock"; fi
+          python src/main.py $ARGS

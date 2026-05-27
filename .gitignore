@@ -1,0 +1,35 @@
+# ===== Secrets (절대 commit 금지) =====
+.env
+.env.local
+*.key
+*.pem
+secrets/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# ===== Data (seen cache는 commit 함 — 중복 방지용) =====
+# data/seen.json  ← commit 함
+data/*.tmp
+data/raw/
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

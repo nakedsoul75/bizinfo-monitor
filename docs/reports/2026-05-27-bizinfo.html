@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>기업마당 모니터링 — 2026-05-26 등록 공고 (전일 신규)</title>
+<style>
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", "Noto Sans KR", sans-serif; background: #f4f5f7; color: #1a1a1a; line-height: 1.55; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 16px 80px; }
+
+.hd { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: #fff; padding: 24px 28px; border-radius: 12px; margin-bottom: 16px; }
+.hd h1 { margin: 0; font-size: 1.5em; }
+.hd-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.hd-meta { opacity: 0.85; font-size: 0.85em; }
+.hd-period { margin-top: 8px; font-size: 0.95em; opacity: 0.9; }
+
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.kpi { background: #fff; padding: 18px 20px; border-radius: 10px; border: 1px solid #e5e7eb; }
+.kpi-hl { border-color: #fbbf24; background: linear-gradient(180deg, #fffbeb 0%, #fff 100%); }
+.kpi-label { font-size: 0.82em; color: #6b7280; margin-bottom: 4px; }
+.kpi-value { font-size: 1.8em; font-weight: 700; }
+.kpi-unit { font-size: 0.55em; font-weight: 400; color: #6b7280; margin-left: 4px; }
+@media (max-width: 560px) { .summary { grid-template-columns: 1fr; } }
+
+.kw { background: #fff; padding: 14px 18px; border-radius: 10px; border: 1px solid #e5e7eb; margin-bottom: 24px; }
+.kw h3 { margin: 0 0 10px; font-size: 0.95em; color: #374151; }
+.kw-row { margin: 6px 0; font-size: 0.88em; }
+.kw-tag { display: inline-block; min-width: 36px; color: #6b7280; margin-right: 8px; }
+.chip { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.78em; margin: 2px; background: #f3f4f6; color: #4b5563; }
+.chip-priority { background: #fef3c7; color: #92400e; font-weight: 600; }
+.chip-general { background: #dbeafe; color: #1e40af; }
+.chip-empty { color: #999; font-style: italic; background: transparent; }
+
+.sec-title { margin: 32px 0 14px; font-size: 1.15em; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
+
+.card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; transition: box-shadow 0.15s; }
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.card-priority { border-left: 4px solid #f59e0b; }
+.card-general { border-left: 4px solid #3b82f6; }
+.card-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.card-title { margin: 6px 0 10px; font-size: 1.05em; line-height: 1.4; }
+.card-title a { color: #1a1a1a; text-decoration: none; }
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+.card-summary { color: #4b5563; font-size: 0.93em; margin-bottom: 12px; }
+.card-meta { font-size: 0.85em; color: #6b7280; border-top: 1px dashed #e5e7eb; padding-top: 10px; margin-top: 10px; }
+.row { display: flex; gap: 10px; margin: 3px 0; }
+.row-label { min-width: 56px; color: #9ca3af; font-size: 0.85em; }
+.row-val { flex: 1; }
+.card-actions { margin-top: 12px; }
+.btn { display: inline-block; padding: 7px 14px; background: #2563eb; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.88em; }
+.btn:hover { background: #1d4ed8; }
+
+.badge { display: inline-block; padding: 3px 9px; border-radius: 5px; font-size: 0.78em; font-weight: 600; }
+.badge-red { background: #fee2e2; color: #b91c1c; }
+.badge-orange { background: #ffedd5; color: #c2410c; }
+.badge-blue { background: #dbeafe; color: #1e40af; }
+.badge-gray { background: #f3f4f6; color: #6b7280; }
+
+mark { background: #fef08a; color: inherit; padding: 0 2px; border-radius: 2px; font-weight: 600; }
+
+.empty { background: #fff; border: 1px dashed #d1d5db; padding: 24px; text-align: center; color: #9ca3af; border-radius: 10px; }
+
+.errors { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 14px 18px; margin-top: 20px; }
+.errors h3 { margin: 0 0 8px; color: #b91c1c; font-size: 0.95em; }
+.errors ul { margin: 0; padding-left: 20px; font-size: 0.85em; color: #7f1d1d; }
+
+.ft { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 0.82em; color: #6b7280; text-align: center; }
+.ft div { margin: 4px 0; }
+.ft a { color: #2563eb; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hd">
+    <div class="hd-row">
+      <h1>🏛️ 기업마당 모니터링</h1>
+      <div class="hd-meta">2026-05-27 21:36 KST</div>
+    </div>
+    <div class="hd-period">조회 기간: <b>2026-05-26 등록 공고 (전일 신규)</b> (공고 등록일 기준)</div>
+  </header>
+
+  <section class="summary">
+    <div class="kpi">
+      <div class="kpi-label">조회된 신규 공고</div>
+      <div class="kpi-value">5<span class="kpi-unit">건</span></div>
+    </div>
+    <div class="kpi kpi-hl">
+      <div class="kpi-label">⭐ 우선 (회사명)</div>
+      <div class="kpi-value">3<span class="kpi-unit">건</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">📋 일반 (업종)</div>
+      <div class="kpi-value">0<span class="kpi-unit">건</span></div>
+    </div>
+  </section>
+
+  <section class="kw">
+    <h3>적용 키워드</h3>
+    <div class="kw-row"><b class="kw-tag">우선</b> <span class="chip chip-priority">창대</span> <span class="chip chip-priority">디엘나인</span> <span class="chip chip-priority">DL나인</span> <span class="chip chip-priority">DLNINE</span> <span class="chip chip-priority">콤마나인</span> <span class="chip chip-priority">COMMANINE</span> <span class="chip chip-priority">comma9</span> <span class="chip chip-priority">팩토리나인</span> <span class="chip chip-priority">Factory Nine</span> <span class="chip chip-priority">FactoryNine</span> <span class="chip chip-priority">factory9</span></div>
+    <div class="kw-row"><b class="kw-tag">일반</b> <span class="chip chip-empty">없음</span></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">⭐ 우선 매칭 (3)</h2>
+    <article class="card card-priority">
+  <div class="card-top">
+    <div class="card-badges"><span class="badge badge-red">D-3</span></div>
+    <div class="card-keywords"><span class="chip chip-priority">팩토리나인</span> <span class="chip chip-priority">FactoryNine</span></div>
+  </div>
+  <h3 class="card-title"><a href="https://www.bizinfo.go.kr/web/lay1/bbs/example002.do" target="_blank" rel="noopener">2026 소량제작·시제품 제작 지원 사업 (Factory Nine 등 활용 가능)</a></h3>
+  <div class="card-summary">창업기업 및 예비창업자가 자체 보유한 아이디어를 시제품으로 구현할 수 있도록 소량제작·OEM 제작비를 지원합니다. <mark>팩토리나인</mark>, 다양한 소공인 협력업체와의 매칭을 안내합니다.</div>
+  <div class="card-meta">
+    <div class="row"><span class="row-label">대상</span><span class="row-val">예비창업자 및 7년 이내 창업기업</span></div>
+    <div class="row"><span class="row-label">기관</span><span class="row-val">중소벤처기업부</span></div>
+    <div class="row"><span class="row-label">신청기간</span><span class="row-val">2026-06-01 ~ 2026-05-30</span></div>
+  </div>
+  <div class="card-actions">
+    <a class="btn" href="https://www.bizinfo.go.kr/web/lay1/bbs/example002.do" target="_blank" rel="noopener">공고 원문 보기 →</a>
+  </div>
+</article>
+<article class="card card-priority">
+  <div class="card-top">
+    <div class="card-badges"><span class="badge badge-orange">D-14</span></div>
+    <div class="card-keywords"><span class="chip chip-priority">콤마나인</span></div>
+  </div>
+  <h3 class="card-title"><a href="https://www.bizinfo.go.kr/web/lay1/bbs/example001.do" target="_blank" rel="noopener">2026년 <mark>콤마나인</mark> 등 캠핑가구 수출기업 해외 마케팅 지원사업</a></h3>
+  <div class="card-summary">대구·경북 권역 캠핑가구·아웃도어 제조 중소기업을 대상으로 해외 전시회 참가 및 바이어 매칭을 지원합니다. <mark>콤마나인</mark>, 스노우피크 등 우수 캠핑 브랜드 사례를 참고로 작성된 프로그램.</div>
+  <div class="card-meta">
+    <div class="row"><span class="row-label">대상</span><span class="row-val">대구·경북 소재 캠핑가구·아웃도어 중소기업 (매출 10억 이하 우대)</span></div>
+    <div class="row"><span class="row-label">기관</span><span class="row-val">중소벤처기업부 대구지방청</span></div>
+    <div class="row"><span class="row-label">신청기간</span><span class="row-val">2026-05-28 ~ 2026-06-10</span></div>
+  </div>
+  <div class="card-actions">
+    <a class="btn" href="https://www.bizinfo.go.kr/web/lay1/bbs/example001.do" target="_blank" rel="noopener">공고 원문 보기 →</a>
+  </div>
+</article>
+<article class="card card-priority">
+  <div class="card-top">
+    <div class="card-badges"><span class="badge badge-blue">D-64</span></div>
+    <div class="card-keywords"><span class="chip chip-priority">디엘나인</span></div>
+  </div>
+  <h3 class="card-title"><a href="https://www.bizinfo.go.kr/web/lay1/bbs/example003.do" target="_blank" rel="noopener">2026년 <mark>디엘나인</mark> 소재기업 스마트공장 보급확산 지원</a></h3>
+  <div class="card-summary">가구·금속가공 분야 <mark>디엘나인</mark> 소재 중소제조기업을 대상으로 스마트공장 구축비 50% 매칭 지원. 살바니니, 레이저가공기 등 신규 설비 도입 시 우대.</div>
+  <div class="card-meta">
+    <div class="row"><span class="row-label">대상</span><span class="row-val">대구 동구 소재 제조 중소기업</span></div>
+    <div class="row"><span class="row-label">기관</span><span class="row-val">중소벤처기업부 대구지방청</span></div>
+    <div class="row"><span class="row-label">신청기간</span><span class="row-val">2026-06-15 ~ 2026-07-30</span></div>
+  </div>
+  <div class="card-actions">
+    <a class="btn" href="https://www.bizinfo.go.kr/web/lay1/bbs/example003.do" target="_blank" rel="noopener">공고 원문 보기 →</a>
+  </div>
+</article>
+  </section>
+
+  <section>
+    <h2 class="sec-title">📋 일반 매칭 (0)</h2>
+    <div class="empty">일반 매칭 공고 없음</div>
+  </section>
+
+  
+
+  <footer class="ft">
+    <div>출처: <a href="https://www.bizinfo.go.kr" target="_blank">기업마당 (bizinfo.go.kr)</a> · 공공데이터포털 OpenAPI</div>
+    <div>매일 14:00 KST 자동 발송 · <a href="./">이전 보고서 인덱스</a></div>
+  </footer>
+
+</div>
+</body>
+</html>
