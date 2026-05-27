@@ -42,6 +42,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Debug — env presence check (values NOT printed)
+        env:
+          BIZINFO_API_KEY: ${{ secrets.BIZINFO_API_KEY }}
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+        run: |
+          echo "=== Secret presence (length only, values masked) ==="
+          echo "BIZINFO_API_KEY length: ${#BIZINFO_API_KEY}"
+          echo "KAKAO_REST_API_KEY length: ${#KAKAO_REST_API_KEY}"
+          echo "KAKAO_REFRESH_TOKEN length: ${#KAKAO_REFRESH_TOKEN}"
+          echo "Expected: BIZINFO=64, KAKAO_REST=32, KAKAO_REFRESH=64"
+
       - name: Run bizinfo monitor
         env:
           BIZINFO_API_KEY: ${{ secrets.BIZINFO_API_KEY }}
