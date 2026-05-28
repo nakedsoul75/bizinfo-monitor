@@ -15,8 +15,9 @@ def _esc(s: str) -> str:
 
 
 def _clean(s: str, max_len: int = 220) -> str:
-    """HTML 태그·과도한 공백 제거 + 길이 컷."""
+    """HTML 태그·엔티티·과도한 공백 제거 + 길이 컷."""
     s = re.sub(r"<[^>]+>", " ", s or "")
+    s = html.unescape(s)  # &nbsp; → space, &#39; → '
     s = re.sub(r"\s+", " ", s).strip()
     if len(s) > max_len:
         s = s[: max_len - 1].rstrip() + "…"
@@ -231,10 +232,29 @@ def _card_html(p: Posting, kind: str) -> str:
         url = "https://www.bizinfo.go.kr" + (url if url.startswith("/") else "/" + url)
 
     target_row = f'<div class="row"><span class="row-label">대상</span><span class="row-val">{target_hl}</span></div>' if target_hl else ""
-    org_row = f'<div class="row"><span class="row-label">기관</span><span class="row-val">{_esc(p.org)}</span></div>' if p.org else ""
+    org_row = f'<div class="row"><span class="row-label">담당</span><span class="row-val">{_esc(p.org)}</span></div>' if p.org else ""
     period_row = ""
     if p.start_date or p.end_date:
         period_row = f'<div class="row"><span class="row-label">신청기간</span><span class="row-val">{_esc(p.start_date)} ~ {_esc(p.end_date)}</span></div>'
+
+    contact_row = ""
+    contact_parts = []
+    if p.writer_name:
+        contact_parts.append(_esc(p.writer_name))
+    if p.writer_phone:
+        contact_parts.append(f'☎ {_esc(p.writer_phone)}')
+    if p.writer_email:
+        contact_parts.append(f'<a href="mailto:{_esc(p.writer_email)}">{_esc(p.writer_email)}</a>')
+    if contact_parts:
+        contact_row = f'<div class="row"><span class="row-label">문의</span><span class="row-val">{" · ".join(contact_parts)}</span></div>'
+
+    files_row = ""
+    if p.files:
+        file_links = " ".join(
+            f'<a class="file-link" href="{_esc(f.get("url", "#"))}" target="_blank" rel="noopener">📎 {_esc(_clean(f.get("name", "파일"), 60))}</a>'
+            for f in p.files[:6]
+        )
+        files_row = f'<div class="row"><span class="row-label">첨부</span><span class="row-val">{file_links}</span></div>'
 
     return f"""<article class="card card-{kind}">
   <div class="card-top">
@@ -247,6 +267,8 @@ def _card_html(p: Posting, kind: str) -> str:
     {target_row}
     {org_row}
     {period_row}
+    {contact_row}
+    {files_row}
   </div>
   <div class="card-actions">
     <a class="btn" href="{_esc(url)}" target="_blank" rel="noopener">공고 원문 보기 →</a>
@@ -355,6 +377,9 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", 
 .term-ex { color: #b91c1c; background: #fef2f2; border-color: #fecaca; }
 .ex-label { font-size: 0.78em; color: #b91c1c; font-weight: 600; margin-left: 4px; }
 .rule-empty { color: #999; font-style: italic; padding: 8px; }
+
+.file-link { display: inline-block; padding: 2px 8px; margin: 2px 4px 2px 0; background: #f3f4f6; color: #374151; text-decoration: none; border-radius: 4px; font-size: 0.85em; border: 1px solid #e5e7eb; }
+.file-link:hover { background: #e5e7eb; color: #1f2937; text-decoration: none; }
 
 .sec-title { margin: 32px 0 14px; font-size: 1.15em; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
 

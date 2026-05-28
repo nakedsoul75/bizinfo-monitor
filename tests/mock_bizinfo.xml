@@ -7,136 +7,120 @@
   <body>
     <items>
       <item>
-        <pblancId>MOCK_COMP_001</pblancId>
-        <pblancNm>2026년 콤마나인 등 캠핑가구 수출기업 해외 마케팅 지원사업</pblancNm>
-        <bsnsSumryCn>대구·경북 권역 캠핑 가구·아웃도어 제조 중소기업을 대상으로 해외 전시회 참가 및 바이어 매칭을 지원합니다. 콤마나인, 스노우피크 등 우수 캠핑 브랜드 사례 참고. 마케팅 지원 패키지 포함.</bsnsSumryCn>
-        <trgetNm>대구·경북 소재 캠핑가구·아웃도어 중소기업</trgetNm>
-        <rceptInsttNm>중소벤처기업부 대구지방청</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock001.do</pblancUrl>
-        <reqstBgngDt>2026-05-28</reqstBgngDt>
-        <reqstEndDt>2026-06-10</reqstEndDt>
-        <creatPnttm>2026-05-26 14:30:00</creatPnttm>
+        <itemId>MOCK_COMP_001</itemId>
+        <title>2026년 콤마나인 등 캠핑가구 수출기업 해외 마케팅 지원사업</title>
+        <dataContents>대구·경북 권역 캠핑 가구·아웃도어 제조 중소기업을 대상으로 해외 전시회 참가 및 바이어 매칭을 지원합니다. 콤마나인, 스노우피크 등 우수 캠핑 브랜드 사례 참고. 마케팅 지원 패키지 포함.</dataContents>
+        <applicationStartDate>2026-05-28</applicationStartDate>
+        <applicationEndDate>2026-06-10</applicationEndDate>
+        <writerName>홍길동</writerName>
+        <writerPosition>중소벤처기업부 대구지방청 수출지원과</writerPosition>
+        <writerPhone>053-100-1000</writerPhone>
+        <writerEmail>test01@korea.kr</writerEmail>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120528</viewUrl>
+        <fileName>2026_캠핑가구_해외마케팅_지원사업_공고.pdf</fileName>
+        <fileUrl>https://www.bizinfo.go.kr/mock/file001.pdf</fileUrl>
       </item>
       <item>
-        <pblancId>MOCK_COMP_002</pblancId>
-        <pblancNm>2026 소량제작·시제품 제작 지원 사업 (Factory Nine 등 협력업체 활용)</pblancNm>
-        <bsnsSumryCn>예비창업자 및 7년 이내 창업기업이 자체 아이디어를 시제품으로 구현할 수 있도록 소량제작·OEM 제작비를 지원합니다. 팩토리나인 등 소공인 협력업체와의 매칭 안내.</bsnsSumryCn>
-        <trgetNm>예비창업자 및 7년 이내 창업기업</trgetNm>
-        <rceptInsttNm>중소벤처기업부</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock002.do</pblancUrl>
-        <reqstBgngDt>2026-06-01</reqstBgngDt>
-        <reqstEndDt>2026-05-30</reqstEndDt>
-        <creatPnttm>2026-05-26 09:15:00</creatPnttm>
+        <itemId>MOCK_COMP_002</itemId>
+        <title>2026 소량제작·시제품 제작 지원 사업 (Factory Nine 등 협력업체 활용)</title>
+        <dataContents>예비창업자 및 7년 이내 창업기업이 자체 아이디어를 시제품으로 구현할 수 있도록 소량제작·OEM 제작비를 지원합니다. 팩토리나인 등 소공인 협력업체와의 매칭 안내.</dataContents>
+        <applicationStartDate>2026-06-01</applicationStartDate>
+        <applicationEndDate>2026-05-30</applicationEndDate>
+        <writerName>김철수</writerName>
+        <writerPosition>중소벤처기업부 창업정책과</writerPosition>
+        <writerPhone>044-204-7100</writerPhone>
+        <writerEmail>test02@korea.kr</writerEmail>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120529</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_EXPORT_VOUCHER</pblancId>
-        <pblancNm>2026년 수출바우처 사업 참여기업 모집공고</pblancNm>
-        <bsnsSumryCn>중소기업의 해외 진출을 지원하기 위한 수출 바우처 지원사업. 마케팅, 통번역, 인증 등 13개 분야 서비스를 바우처 형태로 제공합니다.</bsnsSumryCn>
-        <trgetNm>수출 중소기업</trgetNm>
-        <rceptInsttNm>중소벤처기업진흥공단</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock003.do</pblancUrl>
-        <reqstBgngDt>2026-06-01</reqstBgngDt>
-        <reqstEndDt>2026-06-30</reqstEndDt>
-        <creatPnttm>2026-05-26 10:30:00</creatPnttm>
+        <itemId>MOCK_RULE_EXPORT_VOUCHER</itemId>
+        <title>2026년 수출바우처 사업 참여기업 모집공고</title>
+        <dataContents>중소기업의 해외 진출을 지원하기 위한 수출 바우처 지원사업. 마케팅, 통번역, 인증 등 13개 분야 서비스를 바우처 형태로 제공합니다.</dataContents>
+        <applicationStartDate>2026-06-01</applicationStartDate>
+        <applicationEndDate>2026-06-30</applicationEndDate>
+        <writerPosition>중소벤처기업진흥공단</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120530</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_OVERSEAS_OK</pblancId>
-        <pblancNm>2026 해외 전시회 단체관 참가 지원사업 (인테리어·가구)</pblancNm>
-        <bsnsSumryCn>인테리어·가구 분야 중소기업을 위한 해외 전시회 단체관 참가 지원. 부스 운영비, 통역, 홍보물 제작 지원.</bsnsSumryCn>
-        <trgetNm>가구·인테리어 제조 중소기업</trgetNm>
-        <rceptInsttNm>대한무역투자진흥공사</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock004.do</pblancUrl>
-        <reqstBgngDt>2026-06-15</reqstBgngDt>
-        <reqstEndDt>2026-07-30</reqstEndDt>
-        <creatPnttm>2026-05-26 11:00:00</creatPnttm>
+        <itemId>MOCK_RULE_OVERSEAS_OK</itemId>
+        <title>2026 해외 전시회 단체관 참가 지원사업 (인테리어·가구)</title>
+        <dataContents>인테리어·가구 분야 중소기업을 위한 해외 전시회 단체관 참가 지원. 부스 운영비, 통역, 홍보물 제작 지원.</dataContents>
+        <applicationStartDate>2026-06-15</applicationStartDate>
+        <applicationEndDate>2026-07-30</applicationEndDate>
+        <writerPosition>대한무역투자진흥공사</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120531</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_OVERSEAS_EXCLUDED</pblancId>
-        <pblancNm>2026 화장품 해외 전시회 참가 지원사업</pblancNm>
-        <bsnsSumryCn>K-뷰티 화장품 중소기업을 위한 해외 전시회 참가 지원. 화장품 브랜드 글로벌 확산.</bsnsSumryCn>
-        <trgetNm>화장품 제조 중소기업</trgetNm>
-        <rceptInsttNm>대한화장품협회</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock005.do</pblancUrl>
-        <reqstBgngDt>2026-06-01</reqstBgngDt>
-        <reqstEndDt>2026-08-31</reqstEndDt>
-        <creatPnttm>2026-05-26 11:30:00</creatPnttm>
+        <itemId>MOCK_RULE_OVERSEAS_EXCLUDED</itemId>
+        <title>2026 화장품 해외 전시회 참가 지원사업</title>
+        <dataContents>K-뷰티 화장품 중소기업을 위한 해외 전시회 참가 지원. 화장품 브랜드 글로벌 확산.</dataContents>
+        <applicationStartDate>2026-06-01</applicationStartDate>
+        <applicationEndDate>2026-08-31</applicationEndDate>
+        <writerPosition>대한화장품협회</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120532</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_FACTORY_ROBOT</pblancId>
-        <pblancNm>2026년 스마트공장 로봇 도입 보급확산 지원</pblancNm>
-        <bsnsSumryCn>중소제조업 공장의 로봇 도입을 통한 생산성 향상 지원. 협동로봇, 산업용 로봇 도입비 50% 매칭 지원.</bsnsSumryCn>
-        <trgetNm>제조 중소기업</trgetNm>
-        <rceptInsttNm>한국로봇산업진흥원</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock006.do</pblancUrl>
-        <reqstBgngDt>2026-06-15</reqstBgngDt>
-        <reqstEndDt>2026-07-30</reqstEndDt>
-        <creatPnttm>2026-05-26 12:00:00</creatPnttm>
+        <itemId>MOCK_RULE_FACTORY_ROBOT</itemId>
+        <title>2026년 스마트공장 로봇 도입 보급확산 지원</title>
+        <dataContents>중소제조업 공장의 로봇 도입을 통한 생산성 향상 지원. 협동로봇, 산업용 로봇 도입비 50% 매칭 지원.</dataContents>
+        <applicationStartDate>2026-06-15</applicationStartDate>
+        <applicationEndDate>2026-07-30</applicationEndDate>
+        <writerPosition>한국로봇산업진흥원</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120533</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_FACTORY_AUTOMATION</pblancId>
-        <pblancNm>중소제조업 공장 자동화 시스템 구축 지원</pblancNm>
-        <bsnsSumryCn>중소제조기업의 공장 자동화 시스템 도입 지원. PLC, SCADA, MES 등 자동화 솔루션 구축비 지원.</bsnsSumryCn>
-        <trgetNm>제조 중소기업</trgetNm>
-        <rceptInsttNm>중소벤처기업부</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock007.do</pblancUrl>
-        <reqstBgngDt>2026-06-01</reqstBgngDt>
-        <reqstEndDt>2026-08-15</reqstEndDt>
-        <creatPnttm>2026-05-26 13:00:00</creatPnttm>
+        <itemId>MOCK_RULE_FACTORY_AUTOMATION</itemId>
+        <title>중소제조업 공장 자동화 시스템 구축 지원</title>
+        <dataContents>중소제조기업의 공장 자동화 시스템 도입 지원. PLC, SCADA, MES 등 자동화 솔루션 구축비 지원.</dataContents>
+        <applicationStartDate>2026-06-01</applicationStartDate>
+        <applicationEndDate>2026-08-15</applicationEndDate>
+        <writerPosition>중소벤처기업부 스마트제조혁신과</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120534</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_ROBOT_PRESS_AUTO</pblancId>
-        <pblancNm>자동차 부품 제조 로봇 프레스 자동화 라인 구축 지원</pblancNm>
-        <bsnsSumryCn>자동차 부품 제조 중소기업을 위한 로봇 프레스 자동화 라인 구축 지원. 정밀 가공·생산성 향상 목표.</bsnsSumryCn>
-        <trgetNm>자동차 부품 제조 중소기업</trgetNm>
-        <rceptInsttNm>한국자동차연구원</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock008.do</pblancUrl>
-        <reqstBgngDt>2026-06-01</reqstBgngDt>
-        <reqstEndDt>2026-09-30</reqstEndDt>
-        <creatPnttm>2026-05-26 14:00:00</creatPnttm>
+        <itemId>MOCK_RULE_ROBOT_PRESS_AUTO</itemId>
+        <title>자동차 부품 제조 로봇 프레스 자동화 라인 구축 지원</title>
+        <dataContents>자동차 부품 제조 중소기업을 위한 로봇 프레스 자동화 라인 구축 지원. 정밀 가공·생산성 향상 목표.</dataContents>
+        <applicationStartDate>2026-06-01</applicationStartDate>
+        <applicationEndDate>2026-09-30</applicationEndDate>
+        <writerPosition>한국자동차연구원</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120535</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_CAMPING_ONLY</pblancId>
-        <pblancNm>캠핑 산업 활성화 지원사업</pblancNm>
-        <bsnsSumryCn>국내 캠핑 산업 활성화를 위한 중소기업 R&amp;D 및 마케팅 지원. 캠핑용품 신제품 개발 우대.</bsnsSumryCn>
-        <trgetNm>캠핑용품 제조·유통 중소기업</trgetNm>
-        <rceptInsttNm>문화체육관광부</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock009.do</pblancUrl>
-        <reqstBgngDt>2026-06-10</reqstBgngDt>
-        <reqstEndDt>2026-07-15</reqstEndDt>
-        <creatPnttm>2026-05-26 15:00:00</creatPnttm>
+        <itemId>MOCK_RULE_CAMPING_ONLY</itemId>
+        <title>캠핑 산업 활성화 지원사업</title>
+        <dataContents>국내 캠핑 산업 활성화를 위한 중소기업 R&amp;D 및 마케팅 지원. 캠핑용품 신제품 개발 우대.</dataContents>
+        <applicationStartDate>2026-06-10</applicationStartDate>
+        <applicationEndDate>2026-07-15</applicationEndDate>
+        <writerPosition>문화체육관광부 관광산업과</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120536</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_LEISURE_HOBBY</pblancId>
-        <pblancNm>2026 취미·레저 분야 창업 지원사업</pblancNm>
-        <bsnsSumryCn>취미 및 레저 산업 분야 예비창업자·창업 7년 이내 기업 지원. 사업화 자금 및 멘토링 제공.</bsnsSumryCn>
-        <trgetNm>취미·레저 산업 분야 창업기업</trgetNm>
-        <rceptInsttNm>중소벤처기업부</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock010.do</pblancUrl>
-        <reqstBgngDt>2026-06-15</reqstBgngDt>
-        <reqstEndDt>2026-08-31</reqstEndDt>
-        <creatPnttm>2026-05-26 16:00:00</creatPnttm>
+        <itemId>MOCK_RULE_LEISURE_HOBBY</itemId>
+        <title>2026 취미·레저 분야 창업 지원사업</title>
+        <dataContents>취미 및 레저 산업 분야 예비창업자·창업 7년 이내 기업 지원. 사업화 자금 및 멘토링 제공.</dataContents>
+        <applicationStartDate>2026-06-15</applicationStartDate>
+        <applicationEndDate>2026-08-31</applicationEndDate>
+        <writerPosition>중소벤처기업부 창업정책과</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120537</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_RULE_MARKETING_PHRASE</pblancId>
-        <pblancNm>중소기업 디지털 마케팅 지원 바우처 사업</pblancNm>
-        <bsnsSumryCn>중소기업의 디지털 마케팅 역량 강화를 위한 마케팅 지원 패키지 제공. 광고 운영, 콘텐츠 제작비 지원.</bsnsSumryCn>
-        <trgetNm>중소기업</trgetNm>
-        <rceptInsttNm>중소벤처기업부</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock011.do</pblancUrl>
-        <reqstBgngDt>2026-06-01</reqstBgngDt>
-        <reqstEndDt>2026-12-31</reqstEndDt>
-        <creatPnttm>2026-05-26 17:00:00</creatPnttm>
+        <itemId>MOCK_RULE_MARKETING_PHRASE</itemId>
+        <title>중소기업 디지털 마케팅 지원 바우처 사업</title>
+        <dataContents>중소기업의 디지털 마케팅 역량 강화를 위한 마케팅 지원 패키지 제공. 광고 운영, 콘텐츠 제작비 지원.</dataContents>
+        <applicationStartDate>2026-06-01</applicationStartDate>
+        <applicationEndDate>2026-12-31</applicationEndDate>
+        <writerPosition>중소벤처기업부 디지털혁신과</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120538</viewUrl>
       </item>
       <item>
-        <pblancId>MOCK_UNMATCHED</pblancId>
-        <pblancNm>2026 농식품 가공기업 수출보험 지원</pblancNm>
-        <bsnsSumryCn>농식품 가공 분야 중소기업의 수출보험료를 일부 지원합니다. (매칭 안 되는 대조군 공고)</bsnsSumryCn>
-        <trgetNm>농식품 가공업체</trgetNm>
-        <rceptInsttNm>농림축산식품부</rceptInsttNm>
-        <pblancUrl>https://www.bizinfo.go.kr/web/lay1/bbs/mock099.do</pblancUrl>
-        <reqstBgngDt>2026-06-01</reqstBgngDt>
-        <reqstEndDt>2026-12-31</reqstEndDt>
-        <creatPnttm>2026-05-26 18:00:00</creatPnttm>
+        <itemId>MOCK_UNMATCHED</itemId>
+        <title>2026 농식품 가공기업 수출보험 지원</title>
+        <dataContents>농식품 가공 분야 중소기업의 수출보험료를 일부 지원합니다. (매칭 안 되는 대조군 공고)</dataContents>
+        <applicationStartDate>2026-06-01</applicationStartDate>
+        <applicationEndDate>2026-12-31</applicationEndDate>
+        <writerPosition>농림축산식품부</writerPosition>
+        <viewUrl>https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120539</viewUrl>
       </item>
     </items>
     <numOfRows>100</numOfRows>

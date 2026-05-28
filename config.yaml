@@ -72,10 +72,10 @@ match:
   case_insensitive: true
   strip_whitespace: true   # "콤마 나인" → "콤마나인" 등 띄어쓰기 변형도 매칭
   fields:
-    - "pblancNm"      # 공고명
-    - "bsnsSumryCn"   # 사업개요내용
-    - "trgetNm"       # 신청대상명
-    - "pblancUrl"     # 공고URL
+    - "title"             # 공고명
+    - "dataContents"      # 사업개요내용
+    - "writerPosition"    # 담당 부서 (기관명 키워드 매칭용)
+    - "trgetNm"           # 신청대상 (있는 응답에서만)
 
 # ===== 알림 정책 =====
 notify:

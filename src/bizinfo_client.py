@@ -19,16 +19,26 @@ import requests
 
 @dataclass
 class Posting:
-    """API 응답 1건을 정규화한 객체. 응답 필드명은 향후 실제 호출로 검증 필요."""
-    pblanc_id: str               # 공고 ID (중복 회피 키)
-    title: str                   # 공고명 (pblancNm)
-    summary: str                 # 사업개요 (bsnsSumryCn)
-    target: str                  # 신청대상 (trgetNm)
-    org: str                     # 접수/시행 기관
-    url: str                     # 상세 공고 URL
-    start_date: str              # 신청 시작일 (pblancBgngDt)
-    end_date: str                # 신청 마감일 (pblancEndDt)
-    registered_at: str           # 공고 등록일시 (creatPnttm)
+    """API 응답 1건을 정규화한 객체.
+
+    실 API 필드명 (2026-05 확인):
+      itemId / title / dataContents / applicationStartDate / applicationEndDate /
+      writerName / writerPosition / writerPhone / writerEmail / viewUrl /
+      fileName (다중) / fileUrl (다중)
+    """
+    pblanc_id: str               # 공고 ID (itemId) — 중복 회피 키
+    title: str                   # 공고명 (title)
+    summary: str                 # 사업개요 (dataContents)
+    target: str                  # 신청대상 (응답에 없으면 빈 값)
+    org: str                     # 담당 기관/부서 (writerPosition)
+    url: str                     # 상세 공고 URL (viewUrl)
+    start_date: str              # 신청 시작일 (applicationStartDate)
+    end_date: str                # 신청 마감일 (applicationEndDate)
+    registered_at: str           # 공고 등록일시 (응답에 없으면 빈 값)
+    writer_name: str = ""        # 담당자 이름 (writerName)
+    writer_phone: str = ""       # 담당자 전화 (writerPhone)
+    writer_email: str = ""       # 담당자 이메일 (writerEmail)
+    files: list[dict] = field(default_factory=list)   # [{name, url}, ...]
     raw: dict[str, Any] = field(default_factory=dict)  # 원본 보존
     # 매칭 결과 (후처리에서 채움)
     matched_priority: list[str] = field(default_factory=list)   # 회사명 매칭 키워드
@@ -146,36 +156,69 @@ def _parse_xml(content: bytes) -> tuple[list[Posting], int]:
 
     items: list[Posting] = []
     for item in root.iter("item"):
-        raw = {child.tag: (child.text or "").strip() for child in item}
-        items.append(_normalize_item(raw))
+        items.append(_normalize_item(item))
 
     return items, total
 
 
-def _normalize_item(raw: dict[str, str]) -> Posting:
-    """원본 필드명이 변동 가능하므로 후보 키를 모두 시도."""
+def _normalize_item(item: ET.Element) -> Posting:
+    """item element 를 Posting 으로 변환.
+
+    같은 태그가 여러 번 나타날 수 있어서 (fileName/fileUrl) element 직접 처리.
+    필드명 후보를 여러 개 시도해 실 API + mock 픽스처 호환.
+    """
+    # 단일 값 필드: 첫 번째 등장만 사용
+    single: dict[str, str] = {}
+    files: list[dict] = []
+    file_buffer: dict[str, str] = {}
+
+    for child in item:
+        tag = child.tag
+        val = (child.text or "").strip()
+        if tag == "fileName":
+            if file_buffer.get("name"):
+                # 직전 파일 정보 (이름+URL 짝)을 flush
+                files.append(file_buffer)
+                file_buffer = {}
+            file_buffer["name"] = val
+        elif tag == "fileUrl":
+            file_buffer["url"] = val
+            # 이름·URL이 다 모이면 플러시
+            if file_buffer.get("name"):
+                files.append(file_buffer)
+                file_buffer = {}
+        else:
+            # 단일 필드 — 첫 등장만 보존
+            if tag not in single:
+                single[tag] = val
+    if file_buffer:
+        files.append(file_buffer)
+
     def pick(*keys: str) -> str:
         for k in keys:
-            if k in raw and raw[k]:
-                return raw[k]
+            if k in single and single[k]:
+                return single[k]
         return ""
 
-    pid = pick("pblancId", "pblnId", "id")
+    pid = pick("itemId", "pblancId", "pblnId", "id")
     if not pid:
-        # ID가 없으면 URL이나 제목으로 폴백 식별자 생성
-        pid = pick("pblancUrl", "url") or pick("pblancNm", "title") or ""
+        pid = pick("viewUrl", "pblancUrl", "url") or pick("title", "pblancNm") or ""
 
     return Posting(
         pblanc_id=pid,
-        title=pick("pblancNm", "title", "bsnsTtl"),
-        summary=pick("bsnsSumryCn", "summary", "cn"),
+        title=pick("title", "pblancNm", "bsnsTtl"),
+        summary=pick("dataContents", "bsnsSumryCn", "summary", "cn"),
         target=pick("trgetNm", "target", "applcntTrget"),
-        org=pick("rceptInsttNm", "excInsttNm", "jrsdInsttNm", "org"),
-        url=pick("pblancUrl", "url", "detailUrl"),
-        start_date=pick("reqstBgngDt", "pblancBgngDt", "startDate"),
-        end_date=pick("reqstEndDt", "pblancEndDt", "endDate"),
+        org=pick("rceptInsttNm", "excInsttNm", "jrsdInsttNm", "writerPosition", "org"),
+        url=pick("viewUrl", "pblancUrl", "url", "detailUrl"),
+        start_date=pick("applicationStartDate", "reqstBgngDt", "pblancBgngDt", "startDate"),
+        end_date=pick("applicationEndDate", "reqstEndDt", "pblancEndDt", "endDate"),
         registered_at=pick("creatPnttm", "registeredAt", "regDate"),
-        raw=raw,
+        writer_name=pick("writerName"),
+        writer_phone=pick("writerPhone"),
+        writer_email=pick("writerEmail"),
+        files=files,
+        raw=single,
     )
 
 
