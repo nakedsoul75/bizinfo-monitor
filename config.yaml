@@ -1,7 +1,8 @@
 # 기업마당 모니터링 설정
 # 수정 후 git push 하면 다음 14시 보고서부터 반영됨
+# 룰 변경: rules 섹션 수정 → 자유롭게 추가/삭제
 
-# ===== 우선 키워드 (회사명) — 보고서에 ★ 표시로 우선 노출 =====
+# ===== 회사명 (★ 우선 노출) =====
 priority_keywords:
   - "창대"
   - "디엘나인"
@@ -15,32 +16,75 @@ priority_keywords:
   - "FactoryNine"
   - "factory9"
 
-# ===== 일반 키워드 (업종·관심 분야) — 보고서에 일반 노출 =====
-# 필요 시 자유롭게 추가/삭제. 비워두면 회사명만 매칭.
-general_keywords: []
+# ===== 매칭 룰 =====
+# type:
+#   all     — terms 의 모든 단어가 본문에 포함되어야 매칭 (AND)
+#   any     — terms 중 하나라도 포함되면 매칭 (OR)
+#   phrase  — terms 중 하나라도 구문(여러 단어 묶음)으로 포함되면 매칭
+# exclude:  — 본문에 이 단어가 하나라도 포함되면 매칭 제외 (NOT)
+# priority: — true 면 ⭐ 우선 노출 (회사명과 동일 등급)
+rules:
+  - id: "export_voucher"
+    label: "수출 바우처"
+    type: "all"
+    terms: ["수출", "바우처"]
+
+  - id: "overseas_exhibition"
+    label: "해외 전시회 (화장품 제외)"
+    type: "all"
+    terms: ["해외", "전시회"]
+    exclude: ["화장품"]
+
+  - id: "factory_robot"
+    label: "공장 로봇"
+    type: "all"
+    terms: ["공장", "로봇"]
+
+  - id: "factory_automation"
+    label: "공장 자동화"
+    type: "all"
+    terms: ["공장", "자동화"]
+
+  - id: "robot_press_auto"
+    label: "로봇·프레스·자동차"
+    type: "all"
+    terms: ["로봇", "프레스", "자동차"]
+
+  - id: "camping"
+    label: "캠핑"
+    type: "any"
+    terms: ["캠핑"]
+    priority: true
+
+  - id: "leisure_hobby"
+    label: "레져/취미 산업"
+    type: "any"
+    terms: ["레져", "레저", "취미"]
+    priority: true
+
+  - id: "marketing_support"
+    label: "마케팅 지원"
+    type: "phrase"
+    terms: ["마케팅 지원", "마케팅지원"]
 
 # ===== 매칭 옵션 =====
 match:
-  # 대소문자·공백 무시하고 부분 일치
   case_insensitive: true
-  strip_whitespace: true
-  # 매칭 대상 필드 (기업마당 API 응답에 있는 필드명)
+  strip_whitespace: true   # "콤마 나인" → "콤마나인" 등 띄어쓰기 변형도 매칭
   fields:
     - "pblancNm"      # 공고명
     - "bsnsSumryCn"   # 사업개요내용
     - "trgetNm"       # 신청대상명
-    - "pblancUrl"     # 공고URL (도메인 매칭은 안 함, 텍스트만)
+    - "pblancUrl"     # 공고URL
 
 # ===== 알림 정책 =====
 notify:
-  # 전일 신규 등록된 공고만 (등록일 기준)
   mode: "new_yesterday"
-  # 매칭 0건일 때도 "오늘 매칭 0건" 보고서를 보낼지
   send_when_empty: true
 
 # ===== API =====
 api:
   endpoint: "https://apis.data.go.kr/1421000/mssBizService_v2/getbizList_v2"
-  num_of_rows: 100   # 일일 트래픽 100건 제한 — 페이지당 최대로
-  max_pages: 5       # 안전 상한 (페이지네이션 폭주 방지)
+  num_of_rows: 100
+  max_pages: 5
   timeout_seconds: 30

@@ -89,16 +89,16 @@ def main() -> int:
 
     fetched_total = len(postings)
 
-    # ===== 2. 키워드 매칭 =====
-    matched = bizinfo_client.filter_by_keywords(
+    # ===== 2. 회사명 + 룰 매칭 =====
+    matched = bizinfo_client.apply_matching(
         postings,
-        priority_keywords=cfg["priority_keywords"],
-        general_keywords=cfg.get("general_keywords") or [],
+        priority_keywords=cfg.get("priority_keywords") or [],
+        rules=cfg.get("rules") or [],
         case_insensitive=cfg["match"]["case_insensitive"],
         strip_whitespace=cfg["match"]["strip_whitespace"],
         match_fields=cfg["match"].get("fields"),
     )
-    print(f"[MATCH] {len(matched)}/{fetched_total} matched keywords")
+    print(f"[MATCH] {len(matched)}/{fetched_total} matched (priority+rules)")
 
     # ===== 3. seen 캐시 적용 (이미 본 공고 제외) =====
     cache_path = ROOT / "data" / "seen.json"
@@ -120,8 +120,8 @@ def main() -> int:
         fetched_total=fetched_total,
         period_label=period_label,
         generated_at=now_kst.strftime("%Y-%m-%d %H:%M KST"),
-        priority_keywords=cfg["priority_keywords"],
-        general_keywords=cfg.get("general_keywords") or [],
+        priority_keywords=cfg.get("priority_keywords") or [],
+        rules=cfg.get("rules") or [],
         errors=errors,
     )
     report_path.write_text(html, encoding="utf-8")

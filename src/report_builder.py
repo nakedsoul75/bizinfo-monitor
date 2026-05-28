@@ -66,20 +66,22 @@ def format_short_kakao(
     general = [p for p in matched if not p.is_priority]
 
     header = f"🏛️ 기업마당 모니터링 — {period_label}\n"
-    header += f"  • 신규 등록 공고 전체 {fetched_total}건 조회 → 키워드 매칭 {len(matched)}건"
+    header += f"  • 신규 등록 공고 전체 {fetched_total}건 조회 → 매칭 {len(matched)}건"
 
     body = ""
     if priority:
-        body += f"\n\n⭐ 우선 (회사명 매칭) — {len(priority)}건"
+        body += f"\n\n⭐ 우선 — {len(priority)}건"
         for p in priority[:5]:
             dday = p.days_to_deadline
             dday_str = f"D-{dday}" if dday is not None and dday >= 0 else (f"마감 {-dday}일 경과" if dday is not None else "마감미상")
-            body += f"\n  · [{dday_str}] {p.title[:60]}"
+            tag = _short_tag(p)
+            body += f"\n  · [{dday_str}]{tag} {p.title[:55]}"
 
     if general:
-        body += f"\n\n📋 일반 (업종 키워드) — {len(general)}건"
+        body += f"\n\n📋 일반 — {len(general)}건"
         for p in general[:5]:
-            body += f"\n  · {p.title[:60]}"
+            tag = _short_tag(p)
+            body += f"\n  ·{tag} {p.title[:55]}"
 
     if not matched:
         body = "\n\n오늘 매칭된 공고가 없습니다."
@@ -94,6 +96,18 @@ def format_short_kakao(
     return header + body + footer
 
 
+def _short_tag(p: Posting) -> str:
+    """카톡 단문용 매칭 태그 (회사명 또는 룰 라벨 첫 1~2개)."""
+    tags = []
+    if p.matched_priority:
+        tags.append("회사명")
+    for r in p.matched_rules[:2]:
+        tags.append(r["label"])
+    if not tags:
+        return ""
+    return " [" + "·".join(tags[:2]) + "]"
+
+
 # ===== HTML 보고서 =====
 
 def format_html_report(
@@ -103,7 +117,7 @@ def format_html_report(
     *,
     generated_at: str,
     priority_keywords: list[str],
-    general_keywords: list[str],
+    rules: list[dict],
     errors: list[str] | None = None,
 ) -> str:
     """전체 HTML 보고서 — GitHub Pages 게시용."""
@@ -120,7 +134,7 @@ def format_html_report(
     cards_general = "\n".join(_card_html(p, "general") for p in general) or _empty_state("일반 매칭 공고 없음")
 
     kw_chips_priority = " ".join(f'<span class="chip chip-priority">{_esc(k)}</span>' for k in priority_keywords)
-    kw_chips_general = " ".join(f'<span class="chip chip-general">{_esc(k)}</span>' for k in general_keywords) or '<span class="chip chip-empty">없음</span>'
+    rule_rows = "\n".join(_rule_row_html(r) for r in rules) or '<div class="rule-empty">등록된 룰 없음</div>'
 
     error_section = ""
     if errors:
@@ -164,9 +178,11 @@ def format_html_report(
   </section>
 
   <section class="kw">
-    <h3>적용 키워드</h3>
-    <div class="kw-row"><b class="kw-tag">우선</b> {kw_chips_priority}</div>
-    <div class="kw-row"><b class="kw-tag">일반</b> {kw_chips_general}</div>
+    <h3>적용 키워드 · 룰</h3>
+    <div class="kw-row"><b class="kw-tag">⭐ 회사명</b> {kw_chips_priority}</div>
+    <div class="rule-list">
+      {rule_rows}
+    </div>
   </section>
 
   <section>
@@ -193,14 +209,21 @@ def format_html_report(
 
 def _card_html(p: Posting, kind: str) -> str:
     dday = _dday_badge(p.days_to_deadline)
-    title_hl = _highlight_keywords(p.title or "(제목 없음)", p.all_matched)
-    summary_hl = _highlight_keywords(_clean(p.summary, 280), p.all_matched)
-    target_hl = _highlight_keywords(_clean(p.target, 120), p.all_matched) if p.target else ""
+    highlight_terms = p.all_matched_terms
+    title_hl = _highlight_keywords(p.title or "(제목 없음)", highlight_terms)
+    summary_hl = _highlight_keywords(_clean(p.summary, 280), highlight_terms)
+    target_hl = _highlight_keywords(_clean(p.target, 120), highlight_terms) if p.target else ""
 
-    matched_chips = " ".join(
-        f'<span class="chip chip-{("priority" if k in p.matched_priority else "general")}">{_esc(k)}</span>'
-        for k in p.all_matched
-    )
+    chips = []
+    for kw in p.matched_priority:
+        chips.append(f'<span class="chip chip-priority" title="회사명 매칭">⭐ {_esc(kw)}</span>')
+    for r in p.matched_rules:
+        cls = "chip-rule-priority" if r["priority"] else "chip-rule"
+        terms_str = ", ".join(r.get("terms", []))
+        chips.append(
+            f'<span class="chip {cls}" title="룰 매칭: {_esc(terms_str)}">{_esc(r["label"])}</span>'
+        )
+    matched_chips = " ".join(chips)
 
     url = p.url or "https://www.bizinfo.go.kr"
     if url and not url.startswith("http"):
@@ -233,6 +256,29 @@ def _card_html(p: Posting, kind: str) -> str:
 
 def _empty_state(msg: str) -> str:
     return f'<div class="empty">{_esc(msg)}</div>'
+
+
+def _rule_row_html(rule: dict) -> str:
+    """적용 룰 표시 — 라벨 + 타입(AND/OR/구문) + terms + exclude."""
+    label = rule.get("label", rule.get("id", ""))
+    rtype = (rule.get("type") or "any").lower()
+    type_label = {"all": "AND", "any": "OR", "phrase": "구문"}.get(rtype, rtype.upper())
+    terms = rule.get("terms") or []
+    exclude = rule.get("exclude") or []
+    star = "⭐ " if rule.get("priority") else ""
+    cls = "chip-rule-priority" if rule.get("priority") else "chip-rule"
+
+    terms_html = " ".join(f'<code class="term">{_esc(t)}</code>' for t in terms)
+    exclude_html = ""
+    if exclude:
+        ex_html = " ".join(f'<code class="term term-ex">{_esc(t)}</code>' for t in exclude)
+        exclude_html = f' <span class="ex-label">제외:</span> {ex_html}'
+
+    return f"""<div class="rule-row">
+  <span class="chip {cls}">{star}{_esc(label)}</span>
+  <span class="rule-type">{type_label}</span>
+  {terms_html}{exclude_html}
+</div>"""
 
 
 # ===== 인덱스 페이지 =====
@@ -298,7 +344,17 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", 
 .chip { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.78em; margin: 2px; background: #f3f4f6; color: #4b5563; }
 .chip-priority { background: #fef3c7; color: #92400e; font-weight: 600; }
 .chip-general { background: #dbeafe; color: #1e40af; }
+.chip-rule { background: #ede9fe; color: #5b21b6; }
+.chip-rule-priority { background: #fee2e2; color: #991b1b; font-weight: 600; }
 .chip-empty { color: #999; font-style: italic; background: transparent; }
+
+.rule-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.rule-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 10px; background: #fafaf9; border-radius: 6px; font-size: 0.82em; }
+.rule-type { font-size: 0.72em; font-weight: 700; color: #6b7280; padding: 1px 6px; background: #e5e7eb; border-radius: 4px; }
+.term { font-size: 0.85em; color: #374151; background: #fff; padding: 1px 6px; border: 1px solid #e5e7eb; border-radius: 4px; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; }
+.term-ex { color: #b91c1c; background: #fef2f2; border-color: #fecaca; }
+.ex-label { font-size: 0.78em; color: #b91c1c; font-weight: 600; margin-left: 4px; }
+.rule-empty { color: #999; font-style: italic; padding: 8px; }
 
 .sec-title { margin: 32px 0 14px; font-size: 1.15em; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
 

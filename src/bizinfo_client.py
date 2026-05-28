@@ -31,16 +31,28 @@ class Posting:
     registered_at: str           # 공고 등록일시 (creatPnttm)
     raw: dict[str, Any] = field(default_factory=dict)  # 원본 보존
     # 매칭 결과 (후처리에서 채움)
-    matched_priority: list[str] = field(default_factory=list)
-    matched_general: list[str] = field(default_factory=list)
+    matched_priority: list[str] = field(default_factory=list)   # 회사명 매칭 키워드
+    matched_rules: list[dict] = field(default_factory=list)     # 매칭된 룰 [{id, label, priority}]
 
     @property
     def is_priority(self) -> bool:
-        return bool(self.matched_priority)
+        """회사명 매칭 OR priority 룰 매칭 시 우선 등급."""
+        if self.matched_priority:
+            return True
+        return any(r.get("priority") for r in self.matched_rules)
 
     @property
-    def all_matched(self) -> list[str]:
-        return self.matched_priority + self.matched_general
+    def all_matched_labels(self) -> list[str]:
+        """표시용 라벨 — 회사명 키워드 + 룰 라벨."""
+        return self.matched_priority + [r["label"] for r in self.matched_rules]
+
+    @property
+    def all_matched_terms(self) -> list[str]:
+        """하이라이팅용 — 회사명 + 룰의 terms."""
+        terms = list(self.matched_priority)
+        for r in self.matched_rules:
+            terms.extend(r.get("terms", []))
+        return terms
 
     @property
     def days_to_deadline(self) -> int | None:
@@ -172,37 +184,93 @@ def _findtext(root: ET.Element, path: str) -> str:
     return (el.text or "").strip() if el is not None and el.text else ""
 
 
-# ===== 키워드 매칭 =====
+# ===== 키워드 / 룰 매칭 =====
 
-def filter_by_keywords(
+def apply_matching(
     postings: list[Posting],
     priority_keywords: list[str],
-    general_keywords: list[str],
+    rules: list[dict],
     *,
     case_insensitive: bool = True,
     strip_whitespace: bool = True,
     match_fields: list[str] | None = None,
 ) -> list[Posting]:
-    """키워드 매칭. 매칭된 공고만 반환 (matched_priority / matched_general 채워서)."""
+    """회사명 + 룰 매칭. 둘 중 하나라도 매칭되는 공고만 반환.
+
+    Posting.matched_priority — 매칭된 회사명 키워드
+    Posting.matched_rules    — 매칭된 룰 [{id, label, priority, terms}]
+    """
     matched: list[Posting] = []
     for p in postings:
         text_blob = _build_text_blob(p, match_fields, strip_whitespace)
         haystack = text_blob.lower() if case_insensitive else text_blob
 
+        # 1) 회사명 매칭
         for kw in priority_keywords:
-            needle = kw.lower() if case_insensitive else kw
+            needle = _norm(kw, case_insensitive, strip_whitespace)
             if needle and needle in haystack:
                 p.matched_priority.append(kw)
 
-        for kw in general_keywords:
-            needle = kw.lower() if case_insensitive else kw
-            if needle and needle in haystack:
-                p.matched_general.append(kw)
+        # 2) 룰 매칭
+        for rule in rules:
+            if _rule_matches(rule, haystack, case_insensitive, strip_whitespace):
+                p.matched_rules.append({
+                    "id": rule.get("id", ""),
+                    "label": rule.get("label", rule.get("id", "")),
+                    "priority": bool(rule.get("priority", False)),
+                    "terms": list(rule.get("terms", [])),
+                })
 
-        if p.is_priority or p.matched_general:
+        if p.matched_priority or p.matched_rules:
             matched.append(p)
 
     return matched
+
+
+def _rule_matches(rule: dict, haystack: str, case_insensitive: bool, strip_ws: bool) -> bool:
+    """단일 룰 매칭 평가."""
+    rtype = (rule.get("type") or "any").lower()
+    terms = rule.get("terms") or []
+    exclude = rule.get("exclude") or []
+
+    # NOT 조건 먼저: exclude 단어가 하나라도 있으면 매칭 실패
+    for ex in exclude:
+        needle = _norm(ex, case_insensitive, strip_ws)
+        if needle and needle in haystack:
+            return False
+
+    if not terms:
+        return False
+
+    norm_terms = [_norm(t, case_insensitive, strip_ws) for t in terms]
+    norm_terms = [t for t in norm_terms if t]
+
+    if not norm_terms:
+        return False
+
+    if rtype == "all":
+        # 모든 단어가 본문에 포함되어야 함 (AND)
+        return all(t in haystack for t in norm_terms)
+    elif rtype == "any":
+        # 하나라도 포함되면 매칭 (OR)
+        return any(t in haystack for t in norm_terms)
+    elif rtype == "phrase":
+        # 구문 매칭 — terms 자체가 구문, 본문에 그대로 포함되는지
+        # (strip_whitespace 옵션이면 공백 제거 후 비교 → "마케팅 지원" → "마케팅지원")
+        return any(t in haystack for t in norm_terms)
+    else:
+        # 알 수 없는 타입 — any 로 폴백
+        return any(t in haystack for t in norm_terms)
+
+
+def _norm(text: str, case_insensitive: bool, strip_ws: bool) -> str:
+    """매칭용 정규화."""
+    if not text:
+        return ""
+    s = text.lower() if case_insensitive else text
+    if strip_ws:
+        s = "".join(s.split())
+    return s
 
 
 def _build_text_blob(p: Posting, fields: list[str] | None, strip_ws: bool) -> str:
@@ -213,9 +281,15 @@ def _build_text_blob(p: Posting, fields: list[str] | None, strip_ws: bool) -> st
         parts = [p.title, p.summary, p.target, p.org]
     blob = " ".join(parts)
     if strip_ws:
-        # 띄어쓰기·줄바꿈 제거해서 "콤마 나인" → "콤마나인" 도 매칭
+        # 띄어쓰기·줄바꿈 제거해서 "콤마 나인" → "콤마나인", "마케팅 지원" → "마케팅지원" 매칭
         return "".join(blob.split())
     return blob
+
+
+# (Backward compat) 기존 함수명도 유지 — 새 함수로 위임
+def filter_by_keywords(*args, **kwargs):
+    """Deprecated: use apply_matching."""
+    raise NotImplementedError("Use apply_matching() instead — rule-based matching engine.")
 
 
 # ===== 중복 회피 (seen 캐시) =====
