@@ -10,7 +10,7 @@ import re
 import subprocess
 import sys
 import traceback
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
@@ -42,7 +42,18 @@ def main() -> int:
     parser.add_argument("--no-cache", action="store_true", help="Ignore seen.json (re-emit all)")
     parser.add_argument(
         "--date",
-        help="조회 기준일 (YYYY-MM-DD). 미지정 시 어제. 디버깅용.",
+        help="조회 기준일 (YYYY-MM-DD). 미지정 시 어제. --days 와 함께 쓰면 그날까지의 N일.",
+    )
+    parser.add_argument(
+        "--days",
+        type=int,
+        default=0,
+        help="조회 일수. --days 20 = 오늘 기준 -20일 ~ 오늘 (총 21일). 0이면 단일일 (기본).",
+    )
+    parser.add_argument(
+        "--slot-suffix",
+        default="",
+        help="보고서 파일명 suffix (기본 'bizinfo'). 예: --slot-suffix=last20d → 파일명 YYYY-MM-DD-last20d.html",
     )
     args = parser.parse_args()
 
@@ -50,16 +61,33 @@ def main() -> int:
     cfg = load_config()
 
     now_kst = datetime.now(KST)
-    if args.date:
+    today_str = now_kst.strftime("%Y-%m-%d")
+
+    if args.days > 0:
+        # 범위 조회 모드
+        end_date = args.date or today_str
+        end_dt = datetime.strptime(end_date, "%Y-%m-%d")
+        start_dt = end_dt - timedelta(days=args.days)
+        start_date = start_dt.strftime("%Y-%m-%d")
+        period_label = f"{start_date} ~ {end_date} 등록 공고 (최근 {args.days}일)"
+        target_date = end_date  # log 용
+        slot_id = args.slot_suffix or f"last{args.days}d"
+    elif args.date:
         target_date = args.date
+        start_date = end_date = target_date
+        period_label = f"{target_date} 등록 공고"
+        slot_id = args.slot_suffix or "bizinfo"
     else:
         start, _ = bizinfo_client.yesterday_range_kst(now_kst)
         target_date = start
-    period_label = f"{target_date} 등록 공고 (전일 신규)"
-    slot_filename_date = now_kst.strftime("%Y-%m-%d")
-    slot_filename = f"{slot_filename_date}-bizinfo.html"
+        start_date = end_date = target_date
+        period_label = f"{target_date} 등록 공고 (전일 신규)"
+        slot_id = args.slot_suffix or "bizinfo"
 
-    print(f"[BIZINFO] target_date={target_date} now_kst={now_kst.strftime('%Y-%m-%d %H:%M')}")
+    slot_filename_date = today_str
+    slot_filename = f"{slot_filename_date}-{slot_id}.html"
+
+    print(f"[BIZINFO] range={start_date}~{end_date} now_kst={now_kst.strftime('%Y-%m-%d %H:%M')} slot={slot_id}")
 
     # ===== 1. API 호출 또는 mock =====
     errors: list[str] = []
@@ -71,8 +99,8 @@ def main() -> int:
             api_key = bizinfo_client.from_env()
             postings, fetch_errors = bizinfo_client.fetch_postings(
                 api_key=api_key,
-                start_date=target_date,
-                end_date=target_date,
+                start_date=start_date,
+                end_date=end_date,
                 endpoint=cfg["api"]["endpoint"],
                 num_of_rows=cfg["api"]["num_of_rows"],
                 max_pages=cfg["api"]["max_pages"],

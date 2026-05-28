@@ -7,9 +7,13 @@ on:
   workflow_dispatch:
     inputs:
       date:
-        description: "조회 기준일 (YYYY-MM-DD). 비우면 어제 자동."
+        description: "조회 기준일 (YYYY-MM-DD). 비우면 어제 자동. --days 와 함께 쓰면 종료일."
         required: false
         default: ""
+      days:
+        description: "조회 일수 (N). 0이면 단일일. 예: 20 = 오늘 기준 20일 범위."
+        required: false
+        default: "0"
       mock:
         description: "Mock 픽스처로 실행 (실 API 호출 안 함)"
         required: false
@@ -78,6 +82,10 @@ jobs:
         run: |
           ARGS=""
           if [ -n "${{ inputs.date }}" ]; then ARGS="$ARGS --date=${{ inputs.date }}"; fi
+          DAYS_INPUT="${{ inputs.days }}"
+          if [ -n "$DAYS_INPUT" ] && [ "$DAYS_INPUT" != "0" ]; then
+            ARGS="$ARGS --days=$DAYS_INPUT --no-cache"
+          fi
           if [ "${{ inputs.mock }}" = "true" ]; then ARGS="$ARGS --mock"; fi
           echo "Running: python src/main.py $ARGS"
           set -o pipefail
