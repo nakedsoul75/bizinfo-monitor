@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>기업마당 모니터링 — 2026-06-03 등록 공고 (전일 신규)</title>
+<style>
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", "Noto Sans KR", sans-serif; background: #f4f5f7; color: #1a1a1a; line-height: 1.55; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 16px 80px; }
+
+.hd { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: #fff; padding: 24px 28px; border-radius: 12px; margin-bottom: 16px; }
+.hd h1 { margin: 0; font-size: 1.5em; }
+.hd-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.hd-meta { opacity: 0.85; font-size: 0.85em; }
+.hd-period { margin-top: 8px; font-size: 0.95em; opacity: 0.9; }
+
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.kpi { background: #fff; padding: 18px 20px; border-radius: 10px; border: 1px solid #e5e7eb; }
+.kpi-hl { border-color: #fbbf24; background: linear-gradient(180deg, #fffbeb 0%, #fff 100%); }
+.kpi-label { font-size: 0.82em; color: #6b7280; margin-bottom: 4px; }
+.kpi-value { font-size: 1.8em; font-weight: 700; }
+.kpi-unit { font-size: 0.55em; font-weight: 400; color: #6b7280; margin-left: 4px; }
+@media (max-width: 560px) { .summary { grid-template-columns: 1fr; } }
+
+.kw { background: #fff; padding: 14px 18px; border-radius: 10px; border: 1px solid #e5e7eb; margin-bottom: 24px; }
+.kw h3 { margin: 0 0 10px; font-size: 0.95em; color: #374151; }
+.kw-row { margin: 6px 0; font-size: 0.88em; }
+.kw-tag { display: inline-block; min-width: 36px; color: #6b7280; margin-right: 8px; }
+.chip { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.78em; margin: 2px; background: #f3f4f6; color: #4b5563; }
+.chip-priority { background: #fef3c7; color: #92400e; font-weight: 600; }
+.chip-general { background: #dbeafe; color: #1e40af; }
+.chip-rule { background: #ede9fe; color: #5b21b6; }
+.chip-rule-priority { background: #fee2e2; color: #991b1b; font-weight: 600; }
+.chip-empty { color: #999; font-style: italic; background: transparent; }
+
+.rule-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.rule-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 10px; background: #fafaf9; border-radius: 6px; font-size: 0.82em; }
+.rule-type { font-size: 0.72em; font-weight: 700; color: #6b7280; padding: 1px 6px; background: #e5e7eb; border-radius: 4px; }
+.term { font-size: 0.85em; color: #374151; background: #fff; padding: 1px 6px; border: 1px solid #e5e7eb; border-radius: 4px; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; }
+.term-ex { color: #b91c1c; background: #fef2f2; border-color: #fecaca; }
+.ex-label { font-size: 0.78em; color: #b91c1c; font-weight: 600; margin-left: 4px; }
+.rule-empty { color: #999; font-style: italic; padding: 8px; }
+
+.file-link { display: inline-block; padding: 2px 8px; margin: 2px 4px 2px 0; background: #f3f4f6; color: #374151; text-decoration: none; border-radius: 4px; font-size: 0.85em; border: 1px solid #e5e7eb; }
+.file-link:hover { background: #e5e7eb; color: #1f2937; text-decoration: none; }
+
+.sec-title { margin: 32px 0 14px; font-size: 1.15em; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
+
+.card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; transition: box-shadow 0.15s; }
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.card-priority { border-left: 4px solid #f59e0b; }
+.card-general { border-left: 4px solid #3b82f6; }
+.card-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.card-title { margin: 6px 0 10px; font-size: 1.05em; line-height: 1.4; }
+.card-title a { color: #1a1a1a; text-decoration: none; }
+.card-title a:hover { color: #2563eb; text-decoration: underline; }
+.card-summary { color: #4b5563; font-size: 0.93em; margin-bottom: 12px; }
+.card-meta { font-size: 0.85em; color: #6b7280; border-top: 1px dashed #e5e7eb; padding-top: 10px; margin-top: 10px; }
+.row { display: flex; gap: 10px; margin: 3px 0; }
+.row-label { min-width: 56px; color: #9ca3af; font-size: 0.85em; }
+.row-val { flex: 1; }
+.card-actions { margin-top: 12px; }
+.btn { display: inline-block; padding: 7px 14px; background: #2563eb; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.88em; }
+.btn:hover { background: #1d4ed8; }
+
+.badge { display: inline-block; padding: 3px 9px; border-radius: 5px; font-size: 0.78em; font-weight: 600; }
+.badge-red { background: #fee2e2; color: #b91c1c; }
+.badge-orange { background: #ffedd5; color: #c2410c; }
+.badge-blue { background: #dbeafe; color: #1e40af; }
+.badge-gray { background: #f3f4f6; color: #6b7280; }
+
+mark { background: #fef08a; color: inherit; padding: 0 2px; border-radius: 2px; font-weight: 600; }
+
+.empty { background: #fff; border: 1px dashed #d1d5db; padding: 24px; text-align: center; color: #9ca3af; border-radius: 10px; }
+
+.errors { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 14px 18px; margin-top: 20px; }
+.errors h3 { margin: 0 0 8px; color: #b91c1c; font-size: 0.95em; }
+.errors ul { margin: 0; padding-left: 20px; font-size: 0.85em; color: #7f1d1d; }
+
+.ft { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 0.82em; color: #6b7280; text-align: center; }
+.ft div { margin: 4px 0; }
+.ft a { color: #2563eb; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hd">
+    <div class="hd-row">
+      <h1>🏛️ 기업마당 모니터링</h1>
+      <div class="hd-meta">2026-06-04 17:43 KST</div>
+    </div>
+    <div class="hd-period">조회 기간: <b>2026-06-03 등록 공고 (전일 신규)</b> (공고 등록일 기준)</div>
+  </header>
+
+  <section class="summary">
+    <div class="kpi">
+      <div class="kpi-label">조회된 신규 공고</div>
+      <div class="kpi-value">0<span class="kpi-unit">건</span></div>
+    </div>
+    <div class="kpi kpi-hl">
+      <div class="kpi-label">⭐ 우선 (회사명)</div>
+      <div class="kpi-value">0<span class="kpi-unit">건</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">📋 일반 (업종)</div>
+      <div class="kpi-value">0<span class="kpi-unit">건</span></div>
+    </div>
+  </section>
+
+  <section class="kw">
+    <h3>적용 키워드 · 룰</h3>
+    <div class="kw-row"><b class="kw-tag">⭐ 회사명</b> <span class="chip chip-priority">창대</span> <span class="chip chip-priority">디엘나인</span> <span class="chip chip-priority">DL나인</span> <span class="chip chip-priority">DLNINE</span> <span class="chip chip-priority">콤마나인</span> <span class="chip chip-priority">COMMANINE</span> <span class="chip chip-priority">comma9</span> <span class="chip chip-priority">팩토리나인</span> <span class="chip chip-priority">Factory Nine</span> <span class="chip chip-priority">FactoryNine</span> <span class="chip chip-priority">factory9</span></div>
+    <div class="rule-list">
+      <div class="rule-row">
+  <span class="chip chip-rule">수출 바우처</span>
+  <span class="rule-type">AND</span>
+  <code class="term">수출</code> <code class="term">바우처</code>
+</div>
+<div class="rule-row">
+  <span class="chip chip-rule">해외 전시회 (화장품 제외)</span>
+  <span class="rule-type">AND</span>
+  <code class="term">해외</code> <code class="term">전시회</code> <span class="ex-label">제외:</span> <code class="term term-ex">화장품</code>
+</div>
+<div class="rule-row">
+  <span class="chip chip-rule">공장 로봇</span>
+  <span class="rule-type">AND</span>
+  <code class="term">공장</code> <code class="term">로봇</code>
+</div>
+<div class="rule-row">
+  <span class="chip chip-rule">공장 자동화</span>
+  <span class="rule-type">AND</span>
+  <code class="term">공장</code> <code class="term">자동화</code>
+</div>
+<div class="rule-row">
+  <span class="chip chip-rule">로봇·프레스·자동차</span>
+  <span class="rule-type">AND</span>
+  <code class="term">로봇</code> <code class="term">프레스</code> <code class="term">자동차</code>
+</div>
+<div class="rule-row">
+  <span class="chip chip-rule-priority">⭐ 캠핑</span>
+  <span class="rule-type">OR</span>
+  <code class="term">캠핑</code>
+</div>
+<div class="rule-row">
+  <span class="chip chip-rule-priority">⭐ 레져/취미 산업</span>
+  <span class="rule-type">OR</span>
+  <code class="term">레져</code> <code class="term">레저</code> <code class="term">취미</code>
+</div>
+<div class="rule-row">
+  <span class="chip chip-rule">마케팅 지원</span>
+  <span class="rule-type">구문</span>
+  <code class="term">마케팅 지원</code> <code class="term">마케팅지원</code>
+</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">⭐ 우선 매칭 (0)</h2>
+    <div class="empty">우선 매칭 공고 없음</div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">📋 일반 매칭 (0)</h2>
+    <div class="empty">일반 매칭 공고 없음</div>
+  </section>
+
+  
+
+  <footer class="ft">
+    <div>출처: <a href="https://www.bizinfo.go.kr" target="_blank">기업마당 (bizinfo.go.kr)</a> · 공공데이터포털 OpenAPI</div>
+    <div>매일 14:00 KST 자동 발송 · <a href="./">이전 보고서 인덱스</a></div>
+  </footer>
+
+</div>
+</body>
+</html>
